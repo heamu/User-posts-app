@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>  
+      /* Custom Scrollbar Styles */  
+      textarea::-webkit-scrollbar {  
+      width:6px; /* Width of the scrollbar */ 
+      height:2px; 
+      }  
+      textarea::-webkit-scrollbar-track {  
+      background:#575757; /* Background of the scrollbar track */  
+      }  
+      textarea::-webkit-scrollbar-thumb {  
+      background: white; /* Color of the scroll thumb */  
+      border-radius:10px;  
+      }  
+      textarea::-webkit-scrollbar-thumb:hover {  
+      background: #2b3862; /* Color of the scroll thumb on hover */  
+      }  
+      </style>  
+</head>
+<body class="min-h-screen">
+    <div class=" flex min-h-full  text-white">
+       
+      <div class=" bg-yellow-600  min-h-screen w-1/3 new_post px-4 py-7">
+        <h2 class=" font-bold text-blue-950 text-4xl mb-10 text-wrap">Hey, <%= user.username%>!!!</h2>
+        <form action="/post" method="post"> 
+            <textarea required  class= " rounded-md outline-none bg-slate-700 w-72 h-40 resize-none mb-2 p-3" placeholder="new post . . ."   name="data"></textarea>
+            <input type="submit" class="block px-6 py-1 bg-blue-500  rounded-md"  value="post">
+        </form>
+      </div>
+      <div class=" bg-blue-950 min-h-screen w-2/3 p-3">
+         <h1 class="text-4xl text-wrap font-bold  text-yellow-600  px-60">Your thoughts</h1>
+        <% user.posts.forEach((post)=>{%>
+            <div class=" text-white">
+                <h3 class="text-blue-500 ml-20 mt-4 inline-block">@<%= user.username %></h3>
+                <span class="text-yellow-500 text-1xl ml-20">
+                  <%= `${post.date.getDay()}/${post.date.getMonth()+1}/${post.date.getFullYear()}`%>
+                </span>
+                <textarea class=" block ml-20 p-2 outline-none resize-none w-80 min-h-40 bg-gray-600 rounded-md" disabled name="content" id=""><%= post.text %></textarea>
+               <button  class="bg-orange-600 ml-20 inline-block px-4  py-1 mt-2 rounded-md"><a href="/like/<%= post._id%>">Likes <%= post.likes.length%>
+               </a></button>
+               <button href="" class="bg-blue-600 inline-block px-4 ml-2 mt-2 py-1 rounded-md"><a href="/edit/<%= post._id%>">Edit</a></button>
+               <form class="inline-block"  action="/delete_post/<%= post._id%>" method="post">
+                <input class="bg-red-500  px-4 ml-2 mt-2 py-1 rounded-md" type="submit" value="Delete">
+               </form>
+              
+           </div>
+        <%})%>
+   
+        
+      </div>
+     
+    </div>
+</body>
+</html>
